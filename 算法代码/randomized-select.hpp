@@ -2,7 +2,7 @@
 #include <vector>
 #include "randomized-quick-sort.hpp"
 
-std::vector RandomizedSelect(std::vector A, int p, int r, int i)
+int RandomizedSelect(std::vector A, int p, int r, int i)
 {
 	if(p == r)
 		return A[p];
