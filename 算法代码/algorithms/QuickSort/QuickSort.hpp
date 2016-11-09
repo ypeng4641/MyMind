@@ -22,6 +22,30 @@ namespace algrm
 	}
 #endif
 
+	int Patition(int arr[], int begin, int end)
+	{
+		//Patition
+		int ref = arr[end];
+		int dvIndex = begin -1, itIndex = begin;
+		for(; itIndex < end; ++itIndex)
+		{
+			if(arr[itIndex] < ref)
+			{
+				++dvIndex;
+				int temp = arr[itIndex];
+				arr[itIndex] = arr[dvIndex];
+				arr[dvIndex] = temp;
+			}
+		}
+
+		dvIndex += 1;
+		int temp = arr[end];
+		arr[end] = arr[dvIndex];
+		arr[dvIndex] = temp;
+
+		return dvIndex;
+	}
+
 	int RandomizedQuickSort(int *arr, int begin, int end)
 	{
 		int ret = 0;
@@ -37,24 +61,7 @@ namespace algrm
 			arr[end] = arr[refIndex];
 			arr[refIndex] = temp;
 
-			//Patition
-			int ref = arr[end];
-			int dvIndex = begin -1, itIndex = begin;
-			for(; itIndex < end; ++itIndex)
-			{
-				if(arr[itIndex] < ref)
-				{
-					++dvIndex;
-					int temp = arr[itIndex];
-					arr[itIndex] = arr[dvIndex];
-					arr[dvIndex] = temp;
-				}
-			}
-
-			dvIndex += 1;
-			temp = arr[end];
-			arr[end] = arr[dvIndex];
-			arr[dvIndex] = temp;
+			int dvIndex = Patition(arr, begin, end);
 			OutputArr("Sorting: ", arr, begin, end);
 
 			//Recursion

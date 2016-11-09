@@ -21,71 +21,46 @@ namespace algrm
 	}
 #endif
 
+	void Merge(int arr[], int begin, int mid, int end)
+	{
+		//Make new array
+		int amn = end - begin +1;
+		int* arrTmp = new int[amn];
+		memcpy(arrTmp, arr+begin, sizeof(int)*amn);
+
+		//Merge into original array
+		for(int k = begin, i = 0, j = mid+1-begin; k <= end; ++k)
+		{
+			if(i > mid-begin)
+			{
+				arr[k] = arrTmp[j];
+				++j;
+			}
+			else if(j > end-begin)
+			{
+				arr[k] = arrTmp[i];
+				++i;
+			}
+			else
+			{
+				arr[k] = (arrTmp[i] < arrTmp[j])?(arrTmp[i++]):(arrTmp[j++]);
+			}
+		}
+		
+		delete[] arrTmp; arrTmp = NULL;
+	}
+
 	int MergeSort(int* arr, int begin, int end)
 	{
 		int ret = 0;
 		if(begin < end)
 		{
 			//Divide into sub array
-			int amount = end - begin +1;
 			int mid = (begin + end) / 2;	//calculate the middle index
 			MergeSort(arr, begin, mid);
 			MergeSort(arr, mid+1, end);
 
-			//Make new array
-			int bn1 = begin, bn2 = mid+1;
-			int en1 = mid, en2 = end;
-			int amn1 = en1 - bn1 +1, amn2 = en2 - bn2 +1;
-			int* arr1 = new int[amn1], *arr2 = new int[amn2];
-			for(int i = 0; i < amn1; ++i)
-			{
-				arr1[i] = arr[bn1 + i];
-			}
-			for(int i = 0; i < amn2; ++i)
-			{
-				arr2[i] = arr[bn2 + i];
-			}
-
-			//Merge into original array
-			for(int k = begin, i = 0, j = 0; k <= end; ++k)
-			{
-				if(i < amn1)
-				{
-					if(j < amn2)
-					{
-						if(arr1[i] < arr2[j])
-						{
-							arr[k] = arr1[i];
-							++i;
-						}
-						else
-						{
-							arr[k] = arr2[j];
-							++j;
-						}
-					}
-					else
-					{//j out of range
-						arr[k] = arr1[i];
-						++i;
-					}
-				}
-				else
-				{//i out of range
-					if(j < amn2)
-					{
-						arr[k] = arr2[j];
-						++j;
-					}
-					else
-					{//j out of range
-						ret = -20160703;
-					}
-				}
-			}
-			
-			delete[] arr1; arr1 = NULL;
-			delete[] arr2; arr2 = NULL;
+			Merge(arr, begin, mid, end);
 			OutputArr(std::string("Sorting: "), arr, begin, end);
 		}
 		else
