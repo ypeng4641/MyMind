@@ -92,3 +92,65 @@ node* montageList_2(note* la, note* lb)
 
 	return res;
 }
+
+node *montageList_3(node *la, node *lb)
+{
+	if(NULL == la)
+		return lb;
+	else if(NULL == lb)
+		return la;
+	
+	if(la->data <= lb->data)
+	{
+		la->next = montageList_3(la->next, lb);
+		return la;
+	}
+	else
+	{
+		lb->next = montageList_3(la, lb->next);
+		return lb;
+	}
+}
+
+node *montageList_4(node *la, node *lb)
+{
+	if(NULL == la)
+		return lb;
+	else if(NULL == lb)
+		return la;
+	
+	node *res = NULL;
+	node *tail = NULL;
+	node *cur = NULL;
+	while(NULL != la && NULL != lb)
+	{
+		if(la->data <= lb->data)
+		{
+			cur = la;
+			la = la->next;
+		}
+		else
+		{
+			cur = lb;
+			lb = lb->next;
+		}
+		
+		if(NULL == res)
+			res = tail = cur;
+		else
+		{
+			tail->next = cur;
+			tail = tail->next;
+		}
+	}
+	
+	if(NULL != la)
+	{
+		tail->next = la;
+	}
+	else if(NULL != lb)
+	{
+		 tail->next = lb;
+	}
+	return res;	
+}
